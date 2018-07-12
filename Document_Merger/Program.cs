@@ -11,7 +11,8 @@ namespace Document_Merger
         {
             Console.WriteLine("Doucment Merger");
 
-            do{
+            do
+            {
                 Console.Write("Name of First Text File: ");
                 string firstFile = Check();
                 Console.Write("Name of Second Text File: ");
@@ -39,5 +40,26 @@ namespace Document_Merger
             return input;
         }
 
+        static string CreateName(string firstFile, string secondFile)
+        {
+            if (firstFile.Contains(".txt"))
+            {
+                char[] charsToTrim = { 't', 'x' };
+                public string newFirstFile1 = firstFile.TrimEnd(charsToTrim);
+                char[] punctToTrim = { '.' };
+                string newFirstFile = newFirstFile1.TrimEnd(punctToTrim);
+            }
+            if (secondFile.Contains(".txt"))
+            {
+                char[] charsToTrim = { 't', 'x' };
+                public string newSecondFile = secondFile.TrimEnd(charsToTrim);
+                char[] punctToTrim = { '.' };
+                newSecondFile = newSecondFile.TrimEnd(punctToTrim);
+            }
+
+            string newFileName = newFirstFile + newSecondFile;
+
+            return newFileName;
+        }
     }
 }
