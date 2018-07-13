@@ -5,19 +5,38 @@ namespace Document_Merger
 {
     class Program
     {
-        static string txtFile = "{0}{1}.txt";
+        //static string txtFile = "{0}{1}.txt";
+        static public string firstFile;
+        static public string secondFile;
+        static public string mergedName;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+
             Console.WriteLine("Doucment Merger");
 
             do
             {
                 Console.Write("Name of First Text File: ");
-                string firstFile = Check();
+                firstFile = Check();
                 Console.Write("Name of Second Text File: ");
-                string secondFile = Check();
-                Console.WriteLine(CreateName(firstFile, secondFile));
+                secondFile = Check();
+                mergedName = CreateName(firstFile, secondFile);
+
+                StreamWriter name = null;
+
+                try
+                {
+                    name = new StreamWriter(mergedName);
+                    int characters = WriteFile(name, firstFile);
+                    characters += WriteFile(name, secondFile);
+                    Console.Write("{0} was successfully saved. The document contains {1} characters.", mergedName, characters);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unable to write to {0}: {1}", mergedName, e.Message);
+                }
+
                 Console.Write("Would you like to merge two more files? (y/n): ");
             }
             while (Console.ReadLine().ToLower().Equals("y"));
@@ -33,7 +52,7 @@ namespace Document_Merger
                 valid = true;
                 if (File.Exists(input) == false)
                 {
-                    Console.WriteLine("File does not exist, enter file name again: ");
+                    Console.Write("File does not exist, enter file name again: ");
                     valid = false;
                 }
             }
@@ -42,24 +61,38 @@ namespace Document_Merger
 
         static string CreateName(string firstFile, string secondFile)
         {
-            if (firstFile.Contains(".txt"))
+            string newName = firstFile.Substring(0, firstFile.Length - 4) + secondFile;
+            return newName;
+        }
+
+        static int WriteFile(StreamWriter name, string file)
+        {
+            int count = 0;
+            StreamReader newMerged = null;
+
+            try
             {
-                char[] charsToTrim = { 't', 'x' };
-                public string newFirstFile1 = firstFile.TrimEnd(charsToTrim);
-                char[] punctToTrim = { '.' };
-                string newFirstFile = newFirstFile1.TrimEnd(punctToTrim);
+                newMerged = new StreamReader(file);
+                string read;
+                while ((read = newMerged.ReadLine()) != null)
+                {
+                    name.WriteLine(read);
+                    count += read.Length;
+                }
             }
-            if (secondFile.Contains(".txt"))
+            catch (Exception e)
             {
-                char[] charsToTrim = { 't', 'x' };
-                public string newSecondFile = secondFile.TrimEnd(charsToTrim);
-                char[] punctToTrim = { '.' };
-                newSecondFile = newSecondFile.TrimEnd(punctToTrim);
+                Console.WriteLine("Could not write {0} to merged file: {1}", file, e.Message);
+            }
+            finally
+            {
+                if (newMerged != null)
+                {
+                    newMerged.Close();
+                }
             }
 
-            string newFileName = newFirstFile + newSecondFile;
-
-            return newFileName;
+            return count;
         }
     }
 }
