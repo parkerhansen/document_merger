@@ -24,7 +24,7 @@ namespace Document_Merger
                 Console.Write("Enter new filename (default: {0}): ", mergedName);
                 string userName = Console.ReadLine();
 
-                if(userName == null)
+                if(userName == "")
                 {
                     userName = mergedName;
                 }
