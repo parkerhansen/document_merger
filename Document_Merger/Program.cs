@@ -5,7 +5,6 @@ namespace Document_Merger
 {
     class Program
     {
-        //static string txtFile = "{0}{1}.txt";
         static public string firstFile;
         static public string secondFile;
         static public string mergedName;
