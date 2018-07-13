@@ -21,19 +21,31 @@ namespace Document_Merger
                 Console.Write("Name of Second Text File: ");
                 secondFile = Check();
                 mergedName = CreateName(firstFile, secondFile);
+                Console.Write("Enter new filename (default: {0}): ", mergedName);
+                string userName = Console.ReadLine();
+
+                if(userName == null)
+                {
+                    userName = mergedName;
+                }
+
+                if(userName.Contains(".txt") == false)
+                {
+                    userName += ".txt";
+                }
 
                 StreamWriter name = null;
 
                 try
                 {
-                    name = new StreamWriter(mergedName);
+                    name = new StreamWriter(userName);
                     int characters = WriteFile(name, firstFile);
                     characters += WriteFile(name, secondFile);
-                    Console.Write("{0} was successfully saved. The document contains {1} characters.", mergedName, characters);
+                    Console.Write("{0} was successfully saved. The document contains {1} characters.", userName, characters);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Unable to write to {0}: {1}", mergedName, e.Message);
+                    Console.WriteLine("Unable to write to {0}: {1}", userName, e.Message);
                 }
                 finally
                 {
