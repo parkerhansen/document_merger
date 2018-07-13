@@ -36,6 +36,13 @@ namespace Document_Merger
                 {
                     Console.WriteLine("Unable to write to {0}: {1}", mergedName, e.Message);
                 }
+                finally
+                {
+                    if (name != null)
+                    {
+                        name.Close();
+                    }
+                }
 
                 Console.Write("Would you like to merge two more files? (y/n): ");
             }
